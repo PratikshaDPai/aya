@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, Platform, StyleSheet, TouchableOpacity }
 import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
-  const [image, setImage] = useState<any>(null);
+  const [paletteImage, setPaletteImage] = useState<any>(null);
   const [baseImage, setBaseImage] = useState<any>(null);
   const [palette, setPalette] = useState<string[]>([]);
 
@@ -45,7 +45,7 @@ export default function HomeScreen() {
     }
   };
 
-  const pickImage = async () => {
+  const pickPaletteImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -55,7 +55,7 @@ export default function HomeScreen() {
 
     if (!result.canceled) {
       const picked = result.assets[0];
-      setImage(picked);
+      setPaletteImage(picked);
       if (picked.base64) {
         extractPalette(picked.base64);
       } else {
@@ -74,16 +74,16 @@ export default function HomeScreen() {
       {baseImage && (
         <>
           <Image source={{ uri: baseImage.uri }} style={styles.image} />
-          <Text style={styles.text}>Base Image loaded ✅</Text>
+          <Text style={styles.text}>Base Image loaded </Text>
         </>
       )}
-      <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
-        <Text style={styles.pickButtonText}>Pick an Image</Text>
+      <TouchableOpacity style={styles.pickButton} onPress={pickPaletteImage}>
+        <Text style={styles.pickButtonText}>Pick Palette Image</Text>
       </TouchableOpacity>
-      {image && (
+      {paletteImage && (
         <>
-          <Image source={{ uri: image.uri }} style={styles.image} />
-          <Text style={styles.text}>Image loaded ✅</Text>
+          <Image source={{ uri: paletteImage.uri }} style={styles.image} />
+          <Text style={styles.text}>Palette image loaded </Text>
           {palette.length > 0 && (
             <View style={styles.paletteCard}>
               <Text style={styles.sectionTitle}>Extracted Palette</Text>
