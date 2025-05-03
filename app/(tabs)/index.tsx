@@ -125,7 +125,7 @@ export default function HomeScreen() {
       <TouchableOpacity
         style={styles.pickButton}
         onPress={handleRecolor}
-        disabled={!baseImage || palette.length === 0}
+        disabled={!baseImage || !palette || palette.length === 0}
       >
         <Text style={styles.pickButtonText}>Recolor Image</Text>
       </TouchableOpacity>
