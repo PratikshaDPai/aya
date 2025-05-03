@@ -3,8 +3,10 @@ import { View, Text, Image, ScrollView, Platform, StyleSheet, TouchableOpacity }
 import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
-  const [image, setImage] = useState<any>(null);
+  const [paletteImage, setPaletteImage] = useState<any>(null);
+  const [baseImage, setBaseImage] = useState<any>(null);
   const [palette, setPalette] = useState<string[]>([]);
+  const [recolorResult, setRecolorResult] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -22,7 +24,7 @@ export default function HomeScreen() {
       const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64Image }),
+        body: JSON.stringify({ image: base64Image, palette: palette, }),
       });
       const json = await response.json();
       setPalette(json.palette);
@@ -30,8 +32,7 @@ export default function HomeScreen() {
       console.error('Palette extraction error', error);
     }
   };
-
-  const pickImage = async () => {
+  const pickBaseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
@@ -41,7 +42,21 @@ export default function HomeScreen() {
 
     if (!result.canceled) {
       const picked = result.assets[0];
-      setImage(picked);
+      setBaseImage(picked);
+    }
+  };
+
+  const pickPaletteImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const picked = result.assets[0];
+      setPaletteImage(picked);
       if (picked.base64) {
         extractPalette(picked.base64);
       } else {
@@ -50,15 +65,48 @@ export default function HomeScreen() {
     }
   };
 
+  const handleRecolor = async () => {
+    if (!baseImage?.base64 || palette.length === 0) {
+      alert('Please pick both a base image and a palette image');
+      return;
+    }
+    try {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/recolor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: baseImage.base64,
+          palette: palette,
+        }),
+      });
+      const json = await response.json();
+      setRecolorResult(json.recolor);
+    } catch (error) {
+      console.error('Recolor error:', error);
+      alert('Failed to recolor image');
+    }
+  };
+
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
-        <Text style={styles.pickButtonText}>Pick an Image</Text>
+      <TouchableOpacity style={styles.pickButton} onPress={pickBaseImage}>
+        <Text style={styles.pickButtonText}>Pick Base Image</Text>
       </TouchableOpacity>
-      {image && (
+
+      {baseImage && (
         <>
-          <Image source={{ uri: image.uri }} style={styles.image} />
-          <Text style={styles.text}>Image loaded ✅</Text>
+          <Image source={{ uri: baseImage.uri }} style={styles.image} />
+          <Text style={styles.text}>Base Image loaded </Text>
+        </>
+      )}
+      <TouchableOpacity style={styles.pickButton} onPress={pickPaletteImage}>
+        <Text style={styles.pickButtonText}>Pick Palette Image</Text>
+      </TouchableOpacity>
+      {paletteImage && (
+        <>
+          <Image source={{ uri: paletteImage.uri }} style={styles.image} />
+          <Text style={styles.text}>Palette image loaded </Text>
           {palette.length > 0 && (
             <View style={styles.paletteCard}>
               <Text style={styles.sectionTitle}>Extracted Palette</Text>
@@ -74,6 +122,24 @@ export default function HomeScreen() {
           )}
         </>
       )}
+      <TouchableOpacity
+        style={[styles.pickButton, (!baseImage || !palette || palette.length === 0) && styles.pickButtonDisabled]}
+        onPress={handleRecolor}
+        disabled={!baseImage || !palette || palette.length === 0}
+      >
+        <Text style={styles.pickButtonText}>Recolor Image</Text>
+      </TouchableOpacity>
+
+      {recolorResult && (
+        <>
+          <Text style={styles.sectionTitle}>Recolored Image</Text>
+          <Image
+            source={{ uri: `data:image/png;base64,${recolorResult}` }}
+            style={styles.image}
+          />
+        </>
+      )}
+
     </ScrollView>
   );
 }
@@ -152,6 +218,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+  },
+
+  pickButtonDisabled: {
+    backgroundColor: '#888',  // gray 
   },
 
 });
