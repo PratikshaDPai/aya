@@ -40,7 +40,13 @@ export default function HomeScreen() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0]); // URI + base64
+      const picked = result.assets[0]; 
+      setImage(picked);
+      if (picked.base64) {
+        extractPalette(picked.base64);
+      } else {
+        console.warn('No base64 found on selected image');
+      }
     }
   };
 
