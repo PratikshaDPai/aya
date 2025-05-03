@@ -21,7 +21,7 @@ export default function HomeScreen() {
 
   const extractPalette = async (base64Image: string) => {
     try {
-      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/recolor', {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
         body: JSON.stringify({ image: base64Image, palette: palette, }),
@@ -71,7 +71,7 @@ export default function HomeScreen() {
       return;
     }
     try {
-      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/recolor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,7 +123,7 @@ export default function HomeScreen() {
         </>
       )}
       <TouchableOpacity
-        style={styles.pickButton}
+        style={[styles.pickButton, (!baseImage || !palette || palette.length === 0) && styles.pickButtonDisabled]}
         onPress={handleRecolor}
         disabled={!baseImage || !palette || palette.length === 0}
       >
@@ -218,6 +218,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+  },
+
+  pickButtonDisabled: {
+    backgroundColor: '#888',  // gray 
   },
 
 });
