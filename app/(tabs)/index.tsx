@@ -19,7 +19,7 @@ export default function HomeScreen() {
 
   const extractPalette = async (base64Image: string) => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/palette', {
+      const response = await fetch('http://192.168.110.185:5000/palette', {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
         body: JSON.stringify({ image: base64Image }),
@@ -40,7 +40,7 @@ export default function HomeScreen() {
     });
 
     if (!result.canceled) {
-      const picked = result.assets[0]; 
+      const picked = result.assets[0];
       setImage(picked);
       if (picked.base64) {
         extractPalette(picked.base64);
@@ -57,6 +57,13 @@ export default function HomeScreen() {
         <>
           <Image source={{ uri: image.uri }} style={styles.image} />
           <Text style={styles.text}>Image loaded ✅</Text>
+          {palette.length > 0 && (
+            <View style={styles.swatchContainer}>
+              {palette.map((hex, index) => (
+                <View key={index} style={[styles.swatch, { backgroundColor: hex }]} />
+              ))}
+            </View>
+          )}
         </>
       )}
     </ScrollView>
@@ -67,4 +74,18 @@ const styles = StyleSheet.create({
   container: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
   image: { width: 300, height: 300, resizeMode: 'contain', marginVertical: 20 },
   text: { fontSize: 16 },
+  swatchContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  swatch: {
+    width: 50,
+    height: 50,
+    borderRadius: 6,
+    margin: 6,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
 });
