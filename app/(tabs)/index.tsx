@@ -6,6 +6,7 @@ export default function HomeScreen() {
   const [paletteImage, setPaletteImage] = useState<any>(null);
   const [baseImage, setBaseImage] = useState<any>(null);
   const [palette, setPalette] = useState<string[]>([]);
+  const [recolorResult, setRecolorResult] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -20,10 +21,10 @@ export default function HomeScreen() {
 
   const extractPalette = async (base64Image: string) => {
     try {
-      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/recolor', {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
-        body: JSON.stringify({ image: base64Image }),
+        body: JSON.stringify({ image: base64Image, palette: palette, }),
       });
       const json = await response.json();
       setPalette(json.palette);
@@ -64,6 +65,28 @@ export default function HomeScreen() {
     }
   };
 
+  const handleRecolor = async () => {
+    if (!baseImage?.base64 || palette.length === 0) {
+      alert('Please pick both a base image and a palette image');
+      return;
+    }
+    try {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: baseImage.base64,
+          palette: palette,
+        }),
+      });
+      const json = await response.json();
+      setRecolorResult(json.recolor);
+    } catch (error) {
+      console.error('Recolor error:', error);
+      alert('Failed to recolor image');
+    }
+  };
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -99,6 +122,24 @@ export default function HomeScreen() {
           )}
         </>
       )}
+      <TouchableOpacity
+        style={styles.pickButton}
+        onPress={handleRecolor}
+        disabled={!baseImage || palette.length === 0}
+      >
+        <Text style={styles.pickButtonText}>Recolor Image</Text>
+      </TouchableOpacity>
+
+      {recolorResult && (
+        <>
+          <Text style={styles.sectionTitle}>Recolored Image</Text>
+          <Image
+            source={{ uri: `data:image/png;base64,${recolorResult}` }}
+            style={styles.image}
+          />
+        </>
+      )}
+
     </ScrollView>
   );
 }
