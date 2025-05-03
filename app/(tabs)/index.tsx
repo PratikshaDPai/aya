@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
   const [image, setImage] = useState<any>(null);
+  const [baseImage, setBaseImage] = useState<any>(null);
   const [palette, setPalette] = useState<string[]>([]);
 
   useEffect(() => {
@@ -30,6 +31,19 @@ export default function HomeScreen() {
       console.error('Palette extraction error', error);
     }
   };
+  const pickBaseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      base64: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const picked = result.assets[0];
+      setBaseImage(picked);
+    }
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -50,8 +64,19 @@ export default function HomeScreen() {
     }
   };
 
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <TouchableOpacity style={styles.pickButton} onPress={pickBaseImage}>
+        <Text style={styles.pickButtonText}>Pick Base Image</Text>
+      </TouchableOpacity>
+
+      {baseImage && (
+        <>
+          <Image source={{ uri: baseImage.uri }} style={styles.image} />
+          <Text style={styles.text}>Base Image loaded ✅</Text>
+        </>
+      )}
       <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
         <Text style={styles.pickButtonText}>Pick an Image</Text>
       </TouchableOpacity>
