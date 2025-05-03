@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Image, Platform, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function HomeScreen() {
@@ -19,7 +19,7 @@ export default function HomeScreen() {
 
   const extractPalette = async (base64Image: string) => {
     try {
-      const response = await fetch('http://192.168.110.185:5000/palette', {
+      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
         body: JSON.stringify({ image: base64Image }),
@@ -52,16 +52,24 @@ export default function HomeScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Button title="Pick an Image" onPress={pickImage} />
+      <TouchableOpacity style={styles.pickButton} onPress={pickImage}>
+        <Text style={styles.pickButtonText}>Pick an Image</Text>
+      </TouchableOpacity>
       {image && (
         <>
           <Image source={{ uri: image.uri }} style={styles.image} />
           <Text style={styles.text}>Image loaded ✅</Text>
           {palette.length > 0 && (
-            <View style={styles.swatchContainer}>
-              {palette.map((hex, index) => (
-                <View key={index} style={[styles.swatch, { backgroundColor: hex }]} />
-              ))}
+            <View style={styles.paletteCard}>
+              <Text style={styles.sectionTitle}>Extracted Palette</Text>
+              <View style={styles.swatchContainer}>
+                {palette.map((hex, index) => (
+                  <View key={index} style={styles.swatchBlock}>
+                    <View style={[styles.swatch, { backgroundColor: hex }]} />
+                    <Text style={styles.hexText}>{hex}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
           )}
         </>
@@ -71,21 +79,80 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  image: { width: 300, height: 300, resizeMode: 'contain', marginVertical: 20 },
-  text: { fontSize: 16 },
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
+    marginVertical: 20,
+  },
+  text: {
+    fontSize: 16,
+  },
+  paletteCard: {
+    backgroundColor: '#1e1e1e',
+    padding: 20,
+    borderRadius: 16,
+    marginTop: 20,
+    width: '100%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 12,
+  },
   swatchContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginTop: 10,
+  },
+  swatchBlock: {
+    alignItems: 'center',
+    margin: 8,
   },
   swatch: {
     width: 50,
     height: 50,
-    borderRadius: 6,
-    margin: 6,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#444',
   },
+  hexText: {
+    marginTop: 6,
+    fontSize: 12,
+    color: '#ccc',
+  },
+  pickButton: {
+    backgroundColor: '#3f51b5',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+
+  pickButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
 });
+
