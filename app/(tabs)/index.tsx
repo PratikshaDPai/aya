@@ -4,6 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAyaStore } from '../../lib/store';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 export default function BaseImageScreen() {
   const router = useRouter();
@@ -39,9 +41,17 @@ export default function BaseImageScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>AYA</Text>
 
-      <TouchableOpacity style={styles.circleButton} onPress={pickBaseImage}>
-        <Text style={styles.plus}>+</Text>
+      <TouchableOpacity
+        style={[styles.circleButton, baseImage && styles.undoButton]}
+        onPress={baseImage ? () => setBaseImage(null) : pickBaseImage}
+      >
+        {baseImage ? (
+          <MaterialIcons name="undo" size={24} color="#3f51b5" />
+        ) : (
+          <Text style={styles.plus}>+</Text>
+        )}
       </TouchableOpacity>
+
 
       <Text style={styles.subtext}>Pick a base image</Text>
 
@@ -93,6 +103,18 @@ const styles = StyleSheet.create({
   plus: {
     fontSize: 40,
     color: '#777',
+  },
+
+  undoButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    borderColor: '#888',
+    marginBottom: 16,
+  },
+  undoIcon: {
+    fontSize: 26,
+    color: '#ccc',
   },
   subtext: {
     color: '#777',
