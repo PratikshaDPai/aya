@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
+const baseURL = 'https://palette-backend-hqcb.onrender.com'
+// local testing url= 'https://a51b-192-195-80-211.ngrok-free.app'
+
 export default function HomeScreen() {
   const [paletteImage, setPaletteImage] = useState<any>(null);
   const [baseImage, setBaseImage] = useState<any>(null);
@@ -21,7 +24,7 @@ export default function HomeScreen() {
 
   const extractPalette = async (base64Image: string) => {
     try {
-      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/palette', {
+      const response = await fetch(`${baseURL}/palette`, {
         method: 'POST',
         headers: { 'content-Type': 'application/json' },
         body: JSON.stringify({ image: base64Image, palette: palette, }),
@@ -71,7 +74,7 @@ export default function HomeScreen() {
       return;
     }
     try {
-      const response = await fetch('https://a51b-192-195-80-211.ngrok-free.app/recolor', {
+      const response = await fetch(`${baseURL}/recolor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
