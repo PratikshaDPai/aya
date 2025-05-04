@@ -1,12 +1,15 @@
 import React from 'react';
+import Slider from '@react-native-community/slider';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAyaStore } from '../../lib/store';
+
 
 export default function ResultScreen() {
   const router = useRouter();
   const baseImage = useAyaStore(state => state.baseImage);
   const recolorResult = useAyaStore(state => state.recolorResult);
+  const [sliderValue, setSliderValue] = React.useState(1);
 
   if (!recolorResult || !baseImage) {
     return (
@@ -22,11 +25,27 @@ export default function ResultScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.sectionTitle}>Original Image</Text>
-      <Image source={{ uri: baseImage.uri }} style={styles.image} />
-
       <Text style={styles.sectionTitle}>Recolored Image</Text>
-      <Image source={{ uri: `data:image/png;base64,${recolorResult}` }} style={styles.image} />
-
+      <Text style={styles.sectionTitle}>Compare with Slider</Text>
+      <View style={styles.imageWrapper}>
+        <Image source={{ uri: baseImage.uri }} style={styles.imageAbsolute} />
+        <View style={[styles.overlayContainer, { width: `${sliderValue * 100}%` }]}>
+          <Image
+            source={{ uri: `data:image/png;base64,${recolorResult}` }}
+            style={styles.imageAbsolute}
+          />
+        </View>
+      </View>
+      <Slider
+        style={{ width: 300, height: 40 }}
+        minimumValue={0}
+        maximumValue={1}
+        step={0.01}
+        value={sliderValue}
+        onValueChange={setSliderValue}
+        minimumTrackTintColor="#3f51b5"
+        maximumTrackTintColor="#ccc"
+      />
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button} onPress={() => router.replace('/')}>
           <Text style={styles.buttonText}>🔄 Start Over</Text>
@@ -54,5 +73,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonText: { color: '#fff', fontSize: 14, fontWeight: '600' },
+  imageWrapper: {
+    width: 300,
+    height: 300,
+    marginVertical: 20,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  imageAbsolute: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    overflow: 'hidden',
+  },
+
 });
 
