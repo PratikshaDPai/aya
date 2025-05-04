@@ -121,16 +121,30 @@ export default function PaletteImageScreen() {
       )}
 
       {palette.length > 0 && (
-        <TouchableOpacity style={styles.arrowButtonWrapper} onPress={handleRecolor}>
-          <LinearGradient
-            colors={['#ff416c', '#7f00ff']}
-            start={[0, 0]}
-            end={[1, 0]}
-            style={styles.arrowButton}
-          >
-            <MaterialIcons name="arrow-forward" size={28} color="#fff" />
-          </LinearGradient>
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity style={styles.arrowButtonWrapper} onPress={handleRecolor}>
+            <LinearGradient
+              colors={['#ff416c', '#7f00ff']}
+              start={[0, 0]}
+              end={[1, 0]}
+              style={styles.arrowButton}
+            >
+              <Text style={styles.nextText}>Recolor</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.backButtonWrapper} onPress={() => router.back()}>
+            <LinearGradient
+              colors={['#ff416c', '#7f00ff']}
+              start={[0, 0]}
+              end={[1, 0]}
+              style={styles.arrowButton}
+            >
+              <MaterialIcons name="arrow-back" size={28} color="#fff" />
+            </LinearGradient>
+          </TouchableOpacity>
+
+        </>
+
       )}
     </View>
   );
@@ -184,7 +198,8 @@ const styles = StyleSheet.create({
   },
   arrowButtonWrapper: {
     position: 'absolute',
-    bottom: 10,
+    bottom: 22,
+    left: 100,
     right: 24,
   },
   arrowButton: {
@@ -193,6 +208,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  backButtonWrapper: {
+    position: 'absolute',
+    bottom: 20,
+    left: 24,
+  },
+
   paletteBox: {
     backgroundColor: '#1a1a1a',
     paddingVertical: 16,
@@ -230,6 +251,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ccc',
     marginTop: 4,
+  },
+  nextText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 
 });
