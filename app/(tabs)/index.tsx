@@ -40,6 +40,7 @@ export default function BaseImageScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>AYA</Text>
+      <Text style={styles.subtitle}>Color, reimagined.</Text>
 
       <TouchableOpacity
         style={[styles.circleButton, baseImage && styles.undoButton]}
@@ -88,7 +89,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: 10,
+  },
+  subtitle: {
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 30,
   },
   circleButton: {
     width: 120,
@@ -130,8 +136,8 @@ const styles = StyleSheet.create({
   nextButtonWrapper: {
     position: 'absolute',
     bottom: 40,
-    left: 24,
-    right: 24,
+    left: 30,
+    right: 30,
   },
   nextButton: {
     paddingVertical: 16,

@@ -121,29 +121,32 @@ export default function PaletteImageScreen() {
       )}
 
       {palette.length > 0 && (
-        <>
-          <TouchableOpacity style={styles.arrowButtonWrapper} onPress={handleRecolor}>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.controlButton} onPress={() => router.replace('/')}>
             <LinearGradient
-              colors={['#ff416c', '#7f00ff']}
+              colors={['#0648a4', '#5337a5']}
               start={[0, 0]}
               end={[1, 0]}
-              style={styles.arrowButton}
+              style={styles.gradientButton}
             >
-              <Text style={styles.nextText}>Recolor</Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.backButtonWrapper} onPress={() => router.back()}>
-            <LinearGradient
-              colors={['#ff416c', '#7f00ff']}
-              start={[0, 0]}
-              end={[1, 0]}
-              style={styles.arrowButton}
-            >
-              <MaterialIcons name="arrow-back" size={28} color="#fff" />
+              <MaterialIcons name="arrow-back" size={20} color="#fff" />
+              <Text style={styles.buttonText}>Back   </Text>
             </LinearGradient>
           </TouchableOpacity>
 
-        </>
+          <TouchableOpacity style={styles.controlButton} onPress={() => router.replace('/result')}>
+            <LinearGradient
+              colors={['#ff416c', '#7f00ff']}
+              start={[0, 0]}
+              end={[1, 0]}
+              style={styles.gradientButton}
+            >
+
+              <Text style={styles.buttonText}>Recolor</Text>
+              {/* <MaterialIcons name="arrow-forward" size={20} color="#fff" /> */}
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
 
       )}
     </View>
@@ -196,22 +199,29 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 20,
   },
-  arrowButtonWrapper: {
-    position: 'absolute',
-    bottom: 22,
-    left: 100,
-    right: 24,
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 30,
+    gap: 12,
   },
-  arrowButton: {
-    padding: 16,
-    borderRadius: 40,
+  controlButton: {
+    flex: 1,
+
+  },
+  gradientButton: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 32,
+    gap: 8,
   },
-  backButtonWrapper: {
-    position: 'absolute',
-    bottom: 20,
-    left: 24,
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 
   paletteBox: {
