@@ -134,7 +134,7 @@ export default function PaletteImageScreen() {
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.controlButton} onPress={() => router.replace('/result')}>
+          <TouchableOpacity style={styles.controlButton} onPress={handleRecolor}>
             <LinearGradient
               colors={['#ff416c', '#7f00ff']}
               start={[0, 0]}
