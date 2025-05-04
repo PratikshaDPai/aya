@@ -1,16 +1,16 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useAyaStore } from '../../lib/store';
 
 export default function BaseImageScreen() {
   const router = useRouter();
-
   const baseImage = useAyaStore(state => state.baseImage);
   const setBaseImage = useAyaStore(state => state.setBaseImage);
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -36,46 +36,89 @@ export default function BaseImageScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity style={styles.pickButton} onPress={pickBaseImage}>
-        <Text style={styles.pickButtonText}>Pick Base Image</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>AYA</Text>
+
+      <TouchableOpacity style={styles.circleButton} onPress={pickBaseImage}>
+        <Text style={styles.plus}>+</Text>
       </TouchableOpacity>
 
+      <Text style={styles.subtext}>Pick a base image</Text>
+
       {baseImage && (
-        <>
-          <Image source={{ uri: baseImage.uri }} style={styles.image} />
-          <Text style={styles.text}>Base Image Loaded</Text>
-          <TouchableOpacity style={styles.nextButton} onPress={() => router.push('/palette')}>
-            <Text style={styles.pickButtonText}>Next: Pick Palette Image</Text>
-          </TouchableOpacity>
-        </>
+        <Image source={{ uri: baseImage.uri }} style={styles.preview} resizeMode="contain" />
       )}
-    </ScrollView>
+
+      {baseImage && (
+        <TouchableOpacity style={styles.nextButtonWrapper} onPress={() => router.push('/palette')}>
+          <LinearGradient
+            colors={['#ff416c', '#7f00ff']}
+            style={styles.nextButton}
+            start={[0, 0]}
+            end={[1, 0]}
+          >
+            <Text style={styles.nextText}>Next</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  image: { width: 300, height: 300, resizeMode: 'contain', marginVertical: 20 },
-  text: { fontSize: 16 },
-  pickButton: {
-    backgroundColor: '#3f51b5',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 40,
+  },
+  circleButton: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: '#444',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  plus: {
+    fontSize: 40,
+    color: '#777',
+  },
+  subtext: {
+    color: '#777',
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  preview: {
+    width: 240,
+    height: 240,
     borderRadius: 12,
     marginBottom: 20,
   },
-  pickButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
+  nextButtonWrapper: {
+    position: 'absolute',
+    bottom: 40,
+    left: 24,
+    right: 24,
   },
   nextButton: {
-    backgroundColor: '#00c853',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    marginTop: 20,
+    paddingVertical: 16,
+    borderRadius: 32,
+    alignItems: 'center',
+  },
+  nextText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
