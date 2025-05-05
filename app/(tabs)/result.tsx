@@ -72,7 +72,7 @@ export default function ResultScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>AYA</Text>
       <View style={styles.compareHeader}>
-        <Text style={styles.subtext}>Swipe to Compare</Text>
+        <Text style={styles.subtext}>Slide to Compare</Text>
         <TouchableOpacity style={styles.downloadIcon} onPress={handleDownload}>
           <MaterialIcons name="save-alt" size={40} color="#fff" />
         </TouchableOpacity>
