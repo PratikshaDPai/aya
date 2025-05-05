@@ -6,13 +6,11 @@
 
 ## ✨ Features
 
-- 📸 **Pick a base image**
-- 🌈 **Extract a color palette** from a second image
-- 🖌️ **Recolor the base image** using the extracted palette
-- 🔍 **Swipe to compare** original vs recolored image
-- ✅ **Copy palette** to clipboard
-- 💾 **Download recolored image** to your device
-- 🔄 **Undo/Reset** functionality with intuitive UI
+- **Extract a color palette** an image using small batch K-means clustering
+- **Recolor the base image** using the extracted palette
+- **Swipe to compare** original vs recolored image
+- **Copy palette** to clipboard
+- **Download recolored image** to your device
 
 ---
 
@@ -20,7 +18,7 @@
 
 | Base Image Selection      | Palette Extraction           | Swipe Compare                |
 | ------------------------- | ---------------------------- | ---------------------------- |
-| ![](screenshots/base.png) | ![](screenshots/palette.png) | ![](screenshots/compare.png) |
+| ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_220735_Expo Go](https://github.com/user-attachments/assets/38eec4fd-aa52-460c-9e5d-52ebb37c4cea) | ![Screenshot_20250504_220726_Expo Go](https://github.com/user-attachments/assets/9fa2282a-cfcc-4539-ae47-5c0e311c3a5e) |
 
 ---
 
