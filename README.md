@@ -39,13 +39,11 @@
 ---
 
 ## 🎥 Demo Video
+- [ ] Main flow
+<video src="https://github.com/user-attachments/assets/c6de76fa-5c2c-4751-b52a-20f9866d6b36" />
 
-> _Add short clips/gifs showing interaction flow_
-
-- [ ] Picking an image
-- [ ] Extracting palette
-- [ ] Recoloring and comparing
-- [ ] Downloading image
+- [ ] Downloading image to device
+- [ ] Copying palette to device clipboard
 
 ---
 
