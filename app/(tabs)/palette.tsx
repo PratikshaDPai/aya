@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import { MaterialIcons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
+import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
 import {
-  View, Text, Image, StyleSheet,
-  TouchableOpacity, ScrollView, ActivityIndicator
-} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
-import { useAyaStore } from '../../lib/store';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialIcons } from '@expo/vector-icons';
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Toast from "react-native-toast-message";
+import { useAyaStore } from "../../lib/store";
 
-const baseURL = 'https://palette-backend-hqcb.onrender.com';
+const baseURL = "https://palette-backend-hqcb.onrender.com";
 
 export default function PaletteImageScreen() {
   const router = useRouter();
-  const paletteImage = useAyaStore(state => state.paletteImage);
-  const setPaletteImage = useAyaStore(state => state.setPaletteImage);
-  const palette = useAyaStore(state => state.palette);
-  const setPalette = useAyaStore(state => state.setPalette);
-  const baseImage = useAyaStore(state => state.baseImage);
-  const setRecolorResult = useAyaStore(state => state.setRecolorResult);
+  const paletteImage = useAyaStore((state) => state.paletteImage);
+  const setPaletteImage = useAyaStore((state) => state.setPaletteImage);
+  const palette = useAyaStore((state) => state.palette);
+  const setPalette = useAyaStore((state) => state.setPalette);
+  const baseImage = useAyaStore((state) => state.baseImage);
+  const setRecolorResult = useAyaStore((state) => state.setRecolorResult);
   const [loading, setLoading] = useState(false);
 
   const pickPaletteImage = async () => {
@@ -35,7 +41,7 @@ export default function PaletteImageScreen() {
       if (picked.base64) {
         extractPalette(picked.base64);
       } else {
-        console.warn('No base64 found on selected image');
+        console.warn("No base64 found on selected image");
       }
     }
   };
@@ -44,14 +50,14 @@ export default function PaletteImageScreen() {
     try {
       setLoading(true);
       const response = await fetch(`${baseURL}/palette`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: base64Image }),
       });
       const json = await response.json();
       setPalette(json.palette);
     } catch (error) {
-      console.error('Palette extraction error', error);
+      console.error("Palette extraction error", error);
     } finally {
       setLoading(false);
     }
@@ -59,14 +65,14 @@ export default function PaletteImageScreen() {
 
   const handleRecolor = async () => {
     if (!baseImage?.base64 || palette.length === 0) {
-      alert('Please select both images');
+      alert("Please select both images");
       return;
     }
     try {
       setLoading(true);
       const response = await fetch(`${baseURL}/recolor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           image: baseImage.base64,
           palette: palette,
@@ -74,10 +80,10 @@ export default function PaletteImageScreen() {
       });
       const json = await response.json();
       setRecolorResult(json.recolor);
-      router.push('/result');
+      router.push("/result");
     } catch (error) {
-      console.error('Recolor error:', error);
-      alert('Failed to recolor image');
+      console.error("Recolor error:", error);
+      alert("Failed to recolor image");
     } finally {
       setLoading(false);
     }
@@ -101,14 +107,40 @@ export default function PaletteImageScreen() {
       <Text style={styles.subtext}>Pick a palette image</Text>
 
       {paletteImage && (
-        <Image source={{ uri: paletteImage.uri }} style={styles.image} resizeMode="contain" />
+        <Image
+          source={{ uri: paletteImage.uri }}
+          style={styles.image}
+          resizeMode="contain"
+        />
       )}
 
-      {loading && <ActivityIndicator size="large" color="#3f51b5" style={{ marginVertical: 20 }} />}
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          color="#3f51b5"
+          style={{ marginVertical: 20 }}
+        />
+      )}
 
       {palette.length > 0 && (
         <View style={styles.paletteBox}>
-          <Text style={styles.sectionTitle}>Extracted Palette</Text>
+          <View style={styles.paletteHeader}>
+            <Text style={styles.sectionTitle}>Extracted Palette</Text>
+            <TouchableOpacity
+              onPress={async () => {
+                await Clipboard.setStringAsync(palette.join(", "));
+                Toast.show({
+                  type: "success",
+                  text1: "Copied!",
+                  text2: "Palette saved to clipboard 🎨",
+                  position: "bottom",
+                });
+              }}
+            >
+              <MaterialIcons name="content-copy" size={20} color="#ccc" />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.swatchRow}>
             {palette.map((hex, index) => (
               <View key={index} style={styles.swatchBlock}>
@@ -122,32 +154,36 @@ export default function PaletteImageScreen() {
 
       {palette.length > 0 && (
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.controlButton} onPress={() => router.replace('/')}>
+          <TouchableOpacity
+            style={styles.controlButton}
+            onPress={() => router.replace("/")}
+          >
             <LinearGradient
-              colors={['#0648a4', '#5337a5']}
+              colors={["#0648a4", "#5337a5"]}
               start={[0, 0]}
               end={[1, 0]}
               style={styles.gradientButton}
             >
               <MaterialIcons name="arrow-back" size={20} color="#fff" />
-              <Text style={styles.buttonText}>Back   </Text>
+              <Text style={styles.buttonText}>Back </Text>
             </LinearGradient>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.controlButton} onPress={handleRecolor}>
+          <TouchableOpacity
+            style={styles.controlButton}
+            onPress={handleRecolor}
+          >
             <LinearGradient
-              colors={['#ff416c', '#7f00ff']}
+              colors={["#ff416c", "#7f00ff"]}
               start={[0, 0]}
               end={[1, 0]}
               style={styles.gradientButton}
             >
-
               <Text style={styles.buttonText}>Recolor</Text>
               {/* <MaterialIcons name="arrow-forward" size={20} color="#fff" /> */}
             </LinearGradient>
           </TouchableOpacity>
         </View>
-
       )}
     </View>
   );
@@ -156,19 +192,19 @@ export default function PaletteImageScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 24,
   },
   title: {
     fontSize: 24,
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     marginBottom: 40,
   },
   subtext: {
-    color: '#777',
+    color: "#777",
     fontSize: 16,
     marginBottom: 20,
   },
@@ -177,20 +213,20 @@ const styles = StyleSheet.create({
     height: 120,
     borderRadius: 60,
     borderWidth: 2,
-    borderColor: '#444',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderColor: "#444",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 16,
   },
   plus: {
     fontSize: 40,
-    color: '#777',
+    color: "#777",
   },
   undoButton: {
     width: 50,
     height: 50,
     borderRadius: 30,
-    borderColor: '#888',
+    borderColor: "#888",
     marginBottom: 16,
   },
   image: {
@@ -200,54 +236,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginTop: 30,
     gap: 12,
   },
   controlButton: {
     flex: 1,
-
   },
   gradientButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 14,
     borderRadius: 32,
     gap: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 
   paletteBox: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: "#1a1a1a",
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 20,
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
     minWidth: 350,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#fff',
+    fontWeight: "600",
+    color: "#fff",
     marginBottom: 12,
   },
   swatchRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     gap: 5,
-    flexWrap: 'nowrap',
+    flexWrap: "nowrap",
   },
   swatchBlock: {
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 4,
   },
   swatch: {
@@ -255,17 +290,28 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#444',
+    borderColor: "#444",
   },
   hexText: {
     fontSize: 12,
-    color: '#ccc',
+    color: "#ccc",
     marginTop: 4,
   },
   nextText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-
+  paletteHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 8,
+  },
+  copyIcon: {
+    fontSize: 18,
+    color: "#ccc",
+    paddingHorizontal: 10,
+  },
 });
