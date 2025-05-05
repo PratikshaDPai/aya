@@ -1,6 +1,6 @@
 # Aya 🎨📷
 
-**Aya** is a React Native app that lets designers and artists extract color palettes from any image and apply them to another image with a cartoonified recoloring effect. Built with Expo and powered by a Python + OpenCV backend.
+**Aya** is a React Native app that lets designers and artists extract color palettes from any image and apply them to another image with a cartoonified recoloring effect. Built with Expo and powered by a Python + OpenCV [backend](https://github.com/PratikshaDPai/palette-backend).
 
 ---
 
