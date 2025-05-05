@@ -16,7 +16,7 @@
 
 ## 📷 Screenshots
 
-| Base Image Selection      | Palette Extraction           | Swipe Compare                |
+| Base Image Selection      | Palette Extraction           | Sliding Comparison                |
 | ------------------------- | ---------------------------- | ---------------------------- |
 | ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_220735_Expo Go](https://github.com/user-attachments/assets/38eec4fd-aa52-460c-9e5d-52ebb37c4cea) | ![Screenshot_20250504_220726_Expo Go](https://github.com/user-attachments/assets/9fa2282a-cfcc-4539-ae47-5c0e311c3a5e) |
 | ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_231253_Expo Go](https://github.com/user-attachments/assets/203448dc-6b39-4b3f-8b55-46cab0edebf9) |![Screenshot_20250504_230702_Expo Go](https://github.com/user-attachments/assets/c286e583-26a3-47ee-9530-bc87d4dd3ad2) |
