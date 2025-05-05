@@ -40,13 +40,13 @@
 
 ## 🎥 Demo Video
 - [ ] Main flow
-<video src="https://github.com/user-attachments/assets/c6de76fa-5c2c-4751-b52a-20f9866d6b36" />
+<video src="https://github.com/user-attachments/assets/c6de76fa-5c2c-4751-b52a-20f9866d6b36"></video>
 
 - [ ] Downloading image to device
-<video src="https://github.com/user-attachments/assets/892b9492-52de-4353-8226-127f79910020" />
+<video src="https://github.com/user-attachments/assets/892b9492-52de-4353-8226-127f79910020"></video>
 
 - [ ] Copying palette to device clipboard
-<video src="https://github.com/user-attachments/assets/8632a724-1f27-4e4a-b29c-d3d0d2199803" />
+<video src="https://github.com/user-attachments/assets/8632a724-1f27-4e4a-b29c-d3d0d2199803"></video>
 
 
 ---
