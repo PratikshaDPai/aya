@@ -21,6 +21,16 @@
 | ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_220735_Expo Go](https://github.com/user-attachments/assets/38eec4fd-aa52-460c-9e5d-52ebb37c4cea) | ![Screenshot_20250504_220726_Expo Go](https://github.com/user-attachments/assets/9fa2282a-cfcc-4539-ae47-5c0e311c3a5e) |
 | ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_213948_Expo Go](https://github.com/user-attachments/assets/63cc9e29-4632-4619-a741-868f3ce5a63b) | ![Screenshot_20250504_213955_Expo Go](https://github.com/user-attachments/assets/2baa45ba-cc30-475e-9a0b-3c10f114f3a3) |
 | ![617zXvijUBL _UF1000,1000_QL80_](https://github.com/user-attachments/assets/1183ce56-d67a-459e-9902-cf94952a025a) | ![Screenshot_20250504_214028_Expo Go](https://github.com/user-attachments/assets/33c06697-144f-4005-96dd-a371a1808926) | ![Screenshot_20250504_214034_Expo Go](https://github.com/user-attachments/assets/f11ea9bb-891e-4c3d-9609-d619ac66a801) |
+| ![IMG_20250503_220338_177 (2)](https://github.com/user-attachments/assets/a4aa4591-e98f-4cf8-9dac-ff63ff84ef60) | ![Screenshot_20250504_213815_Expo Go](https://github.com/user-attachments/assets/5561cd24-ce9c-48ee-abd6-8764f8a277e2) | ![Screenshot_20250504_213808_Expo Go](https://github.com/user-attachments/assets/f62dced3-14bf-4063-a674-6ec18a8b774c) |
+| ![IMG_20250503_220338_177 (2)](https://github.com/user-attachments/assets/a4aa4591-e98f-4cf8-9dac-ff63ff84ef60) | ![Screenshot_20250504_213625_Expo Go](https://github.com/user-attachments/assets/98e68713-36bf-4429-95aa-c5a878d6be6d) | ![Screenshot_20250504_213616_Expo Go](https://github.com/user-attachments/assets/6f8b3ada-925f-454d-992a-14af6f500e70) |
+| ![IMG_20250503_220338_177 (2)](https://github.com/user-attachments/assets/a4aa4591-e98f-4cf8-9dac-ff63ff84ef60) | ![Screenshot_20250504_213929_Expo Go](https://github.com/user-attachments/assets/b627b438-0731-4994-bbf1-aec450e9c382) | ![Screenshot_20250504_214129_Expo Go](https://github.com/user-attachments/assets/921603c2-20a0-41ce-9353-9f90bea00926) |
+
+
+
+
+
+
+
 
 
 
